@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Survey</title>
+    <link rel="stylesheet" href="../css/createsurvey.css">
+</head>
+<body>
+    <h1>Update Survey</h1>
+    
+    <form id="updateSurveyForm">
+        <label for="templateName">Survey Name:</label>
+        <input type="text" id="templateName" required>
+
+        <label for="category">Category:</label>
+        <select id="category">
+            <option value="Mental Wellness">Mental Wellness</option>
+            <option value="Physical Wellness">Physical Wellness</option>
+        </select>
+
+        <h3>Questions:</h3>
+        <div id="questionsContainer"></div>
+        
+        <button type="button" onclick="addQuestion()">Add Question</button>
+        <button type="submit">Update Survey</button>
+    </form>
+
+    <script src="../js/updatesurvey.js"></script>
+</body>
+</html>

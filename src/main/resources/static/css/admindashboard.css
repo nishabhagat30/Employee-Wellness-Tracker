@@ -1,0 +1,177 @@
+/* General Styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Arial", sans-serif;
+}
+
+body {
+    background-color: #f4f6f9;
+    color: #333;
+}
+
+/* Header */
+header {
+    background-color: #007bff;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 15px;
+    font-size: 18px;
+    font-weight: bold;
+    border-bottom: 3px solid #0056b3;
+}
+
+#logout {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#logout:hover {
+    background-color: #e60000;
+}
+
+/* Main Content */
+main {
+    width: 90%;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+h2 {
+    text-align: center;
+    font-size: 26px;
+    margin-bottom: 10px;
+}
+
+/* Dashboard Sections */
+.dashboard-section {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-section h3 {
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #007bff;
+    color: white;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Buttons */
+button {
+    padding: 8px 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+#createsurvey, #addemployee {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 15px;
+    font-size: 16px;
+    margin-top: 10px;
+    display: block;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#createsurvey:hover, #addemployee:hover {
+    background-color: #218838;
+}
+
+/* Survey & Employee Management Buttons */
+button[onclick^="update"] {
+    background-color: #ffc107;
+    color: black;
+}
+
+button[onclick^="delete"] {
+    background-color: #dc3545;
+    color: white;
+}
+
+
+#surveyReport label {
+    font-weight: bold;
+    margin-right: 5px;
+    font-size: 15px;
+}
+
+#surveyReport input {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#generateReportBtn {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#generateReportBtn:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    main {
+        width: 95%;
+    }
+
+    table {
+        font-size: 14px;
+    }
+
+    button {
+        font-size: 12px;
+    }
+}

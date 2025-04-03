@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="../css/admindashboard.css">
+ 
+</head>
+<body>
+    <header>
+        <h1>Admin Dashboard - Employee Wellness Tracker</h1>
+        <button id="logout">Logout</button>
+    </header>
+
+    <main>
+        <h2>Welcome, Admin</h2>
+
+          <!-- Reports & Analytics -->
+          <section class ="dashboard-section" id="surveyReport">
+            <h3>Survey Report</h3>
+       
+           Date Filters 
+          <label for="startDate">Start Date:</label>
+           <input type="datetime-local" id="startDate">
+           
+           <label for="endDate">End Date:</label>
+           <input type="datetime-local" id="endDate">
+       
+           <button id="generateReportBtn" onclick="generateSurveyReport()">Generate Report</button>
+    </section>
+
+
+    <!-- Wellness Survey Management -->
+    <section class="dashboard-section">
+        <h3>Manage Surveys</h3>
+        <table id="surveyTable">
+            <thead>
+                <tr>
+                    <th>Survey Name</th>
+                    <th>Category</th>
+                    <th>Created Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Survey templates will be dynamically added here -->
+            </tbody>
+        </table>
+        <button id = "createsurvey">Create Survey</button>
+    </section>
+
+
+        <!-- Employee Management Section -->
+        <section class="dashboard-section">
+            <h3>Manage Employees</h3>
+            <table id="employeeTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Employee data will be dynamically added here -->
+                </tbody>
+            </table>
+            <button id = "addemployee">Add Employee</button>
+        </section>
+
+        </main>
+
+           
+   
+    <script src="../js/admindashboard.js"></script> 
+    <script src="../js/logout.js"></script>
+   
+    
+
+</body>
+</html>

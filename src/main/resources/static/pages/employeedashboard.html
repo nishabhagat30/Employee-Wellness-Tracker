@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Dashboard</title>
+    <link rel="stylesheet" href="../css/employeedashboard.css">
+</head>
+<body>
+    <header>
+        <h1 class="logo">Employee Wellness Tracker</h1>
+        <div class="header-buttons">
+            <button id="updateProfileBtn">Update Profile</button>
+            <button id="logout">Logout</button>
+            <button id="deactivateBtn">Deactivate Account</button>
+        </div>
+        <p id="deactivateMessage"></p>
+    </header>
+
+    <main>
+        <h2>Welcome, <span id="employeeName"></span></h2>
+
+        <!-- Available Surveys Section -->
+        <section class="dashboard-section">
+            <h3>Available Surveys</h3>
+            <table id="availableSurveysTable">
+                <thead>
+                    <tr>
+                        <th>Survey Name</th>
+                        <th>Category</th>
+                        <th>Actions</th> <!-- This column will contain the "Fill Survey" buttons -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Surveys will be dynamically added here -->
+                </tbody>
+            </table>
+        </section>
+
+        <section class="dashboard-section">
+            <h3>Past Submissions</h3>
+            <table id="pastSubmissionsTable">
+                <thead>
+                    <tr>
+                        <th>Survey Name</th>
+                        <th>Category</th>
+                        <th>Submission Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Past submissions will be dynamically added here -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <!-- Profile Update Pop-up -->
+<div id="updateProfilePopup" class="popup">
+    <div class="popup-content">
+        <span id="closePopup" class="close-btn">&times;</span>
+        <h3>Update Profile</h3>
+        <form id="updateProfileForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" required>
+
+            <label for="password">New Password (optional):</label>
+            <input type="password" id="password"  autocomplete="new-password" />
+            >
+
+            <button type="submit">Update Profile</button>
+        </form>
+        <p id="updateMessage"></p>
+    </div>
+</div>
+
+    <script src="../js/employeedashboard.js"></script>
+    <script src="../js/logout.js"></script>
+</body>
+</html>
+
