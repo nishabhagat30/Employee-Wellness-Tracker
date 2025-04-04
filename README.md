@@ -29,5 +29,5 @@ The Employee Wellness Tracker is a web application designed to monitor and impro
 -	JavaScript
 
 ## Clone the Repository
-git clone https://github.com/NishaBhagat30/employee-wellness-tracker.git
+git clone https://github.com/nishabhagat30/Employee-Wellness-Tracker.git
 
