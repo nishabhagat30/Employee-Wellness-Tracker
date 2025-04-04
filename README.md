@@ -18,15 +18,15 @@ The Employee Wellness Tracker is a web application designed to monitor and impro
 
 ## Technologies Used
 ### Backend
-•	Java 17
-•	Spring Boot
-•	PostgreSQL
-•	Spring Security (JWT Authentication)
+-	Java 17
+-	Spring Boot
+-	PostgreSQL
+-	Spring Security (JWT Authentication)
 
 ### Frontend
-•	HTML
-•	CSS
-•	JavaScript
+-	HTML
+-	CSS
+-	JavaScript
 
 ## Clone the Repository
 git clone https://github.com/NishaBhagat30/employee-wellness-tracker.git
