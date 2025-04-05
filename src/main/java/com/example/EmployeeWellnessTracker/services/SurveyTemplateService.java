@@ -1,17 +1,20 @@
 
 package com.example.EmployeeWellnessTracker.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.EmployeeWellnessTracker.models.Questions;
 import com.example.EmployeeWellnessTracker.models.SurveyTemplates;
 import com.example.EmployeeWellnessTracker.repository.QuestionRepository;
 import com.example.EmployeeWellnessTracker.repository.SurveyTemplateRepository;
+import com.example.EmployeeWellnessTracker.repository.ResponseAnswerRepository;
 
 @Service
 public class SurveyTemplateService {
@@ -19,16 +22,18 @@ public class SurveyTemplateService {
     @Autowired
     private SurveyTemplateRepository surveyTemplateRepository;
 
-
     @Autowired
     private QuestionRepository questionRepository;
 
-    //Create Survey Template(Admin)
+    @Autowired
+    private ResponseAnswerRepository responseAnswerRepository;
+
+    // Create Survey Template(Admin)
     public SurveyTemplates createSurveyTemplate(SurveyTemplates surveyTemplate) {
         SurveyTemplates savedTemplate = surveyTemplateRepository.save(surveyTemplate);
         if (surveyTemplate.getQuestions() != null) {
             for (Questions question : surveyTemplate.getQuestions()) {
-                question.setSurveyTemplate(savedTemplate); 
+                question.setSurveyTemplate(savedTemplate);
                 questionRepository.save(question);
             }
         }
@@ -36,41 +41,66 @@ public class SurveyTemplateService {
         return savedTemplate;
     }
 
-   //Update Survey Template(Admin)
-    public SurveyTemplates updateSurveyTemplate(Long templateId, SurveyTemplates updatedTemplate) {
-        SurveyTemplates existingTemplate = surveyTemplateRepository.findById(templateId)
-            .orElseThrow(() -> new RuntimeException("Template not found with ID"));
-
-        // ✅ Update template name and category
-        existingTemplate.setTemplateName(updatedTemplate.getTemplateName());
-        existingTemplate.setCategory(updatedTemplate.getCategory());
-
-        // ✅ Updating questions (modify existing or add new)
-        if (updatedTemplate.getQuestions() != null) {
-            for (Questions updatedQuestion : updatedTemplate.getQuestions()) {
-                if (updatedQuestion.getQuestionId() != null) {
-                    // Modify existing question
-                    Questions existingQuestion = questionRepository.findById(updatedQuestion.getQuestionId())
-                        .orElseThrow(() -> new RuntimeException("Question not found with ID: " + updatedQuestion.getQuestionId()));
-
-                    existingQuestion.setQuestionText(updatedQuestion.getQuestionText());
-                    existingQuestion.setOption1(updatedQuestion.getOption1());
-                    existingQuestion.setOption2(updatedQuestion.getOption2());
-                    existingQuestion.setOption3(updatedQuestion.getOption3());
-                    existingQuestion.setOption4(updatedQuestion.getOption4());
-                    questionRepository.save(existingQuestion);
-                } else {
-                    // Add new question
-                    updatedQuestion.setSurveyTemplate(existingTemplate);
-                    questionRepository.save(updatedQuestion);
-                }
+    @Transactional
+    public String updateSurveyTemplate(Long templateId, String newName, String newCategory, List<Questions> updatedQuestions) {
+        Optional<SurveyTemplates> templateOptional = surveyTemplateRepository.findById(templateId);
+    
+        if (templateOptional.isEmpty()) {
+            return "Survey template not found.";
+        }
+    
+        SurveyTemplates template = templateOptional.get();
+    
+        if (newName != null && !newName.isEmpty()) {
+            template.setTemplateName(newName);
+        }
+        if (newCategory != null && !newCategory.isEmpty()) {
+            template.setCategory(newCategory);
+        }
+    
+        List<Questions> existingQuestions = template.getQuestions();
+        List<Questions> newQuestions = new ArrayList<>();
+    
+        for (Questions existingQ : new ArrayList<>(existingQuestions)) { 
+            boolean isStillPresent = updatedQuestions.stream()
+                .anyMatch(newQ -> newQ.getQuestionId() != null && newQ.getQuestionId().equals(existingQ.getQuestionId()));
+    
+            if (!isStillPresent) {
+                responseAnswerRepository.updateQuestionIdToNull(existingQ.getQuestionId()); 
+                questionRepository.deleteById(existingQ.getQuestionId()); 
+                existingQuestions.remove(existingQ);
             }
         }
 
-        return surveyTemplateRepository.save(existingTemplate);
+        for (Questions updatedQ : updatedQuestions) {
+            if (updatedQ.getQuestionId() == null) {
+                updatedQ.setSurveyTemplate(template);
+                newQuestions.add(updatedQ);
+                continue;
+            }
+    
+            Optional<Questions> match = existingQuestions.stream()
+                .filter(q -> q.getQuestionId() != null && q.getQuestionId().equals(updatedQ.getQuestionId()))
+                .findFirst();
+    
+            if (match.isPresent()) {
+                match.get().setQuestionText(updatedQ.getQuestionText());
+                match.get().setOption1(updatedQ.getOption1());
+                match.get().setOption2(updatedQ.getOption2());
+                match.get().setOption3(updatedQ.getOption3());
+                match.get().setOption4(updatedQ.getOption4());
+            }
+        }
+    
+        newQuestions = questionRepository.saveAll(newQuestions);
+        existingQuestions.addAll(newQuestions);
+        template.setQuestions(existingQuestions);
+        surveyTemplateRepository.save(template);
+    
+        return "Survey template updated successfully.";
     }
 
-    //Delete Template (Admin)
+    // Delete Template (Admin)
     public ResponseEntity<String> deleteSurveyTemplate(Long id) {
         return surveyTemplateRepository.findById(id).map(surveyTemplate -> {
             surveyTemplateRepository.delete(surveyTemplate);
@@ -78,8 +108,7 @@ public class SurveyTemplateService {
         }).orElse(ResponseEntity.notFound().build());
     }
 
-
-  //Delete Question (Admin)
+    // Delete Question (Admin)
     public ResponseEntity<String> deleteQuestion(Long id) {
         return questionRepository.findById(id).map(question -> {
             questionRepository.delete(question);
@@ -87,7 +116,7 @@ public class SurveyTemplateService {
         }).orElse(ResponseEntity.notFound().build());
     }
 
-    //Get All Survey(Admin/Employee)
+    // Get All Survey(Admin/Employee)
     public List<SurveyTemplates> getAvailableSurveyTemplates() {
         return surveyTemplateRepository.findAll(); // You can modify this method as needed
     }
@@ -97,11 +126,4 @@ public class SurveyTemplateService {
         return surveyTemplateRepository.findById(id);
     }
 
-
-    
-
 }
-
-
-
-

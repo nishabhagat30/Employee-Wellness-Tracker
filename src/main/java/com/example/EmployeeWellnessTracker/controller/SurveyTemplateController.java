@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.EmployeeWellnessTracker.dto.SurveyUpdateRequest;
 import com.example.EmployeeWellnessTracker.models.SurveyTemplates;
 import com.example.EmployeeWellnessTracker.services.SurveyTemplateService;
 
@@ -22,51 +23,48 @@ import com.example.EmployeeWellnessTracker.services.SurveyTemplateService;
 @RequestMapping("/survey-templates")
 public class SurveyTemplateController {
 
-   
+@Autowired
+private SurveyTemplateService surveyTemplateService;
 
-    @Autowired
-    private SurveyTemplateService surveyTemplateService;
+//Create Template (Admin)
+@PostMapping
+public ResponseEntity<?> createTemplate(@RequestBody SurveyTemplates surveyTemplate) {
+SurveyTemplates createdTemplate = surveyTemplateService.createSurveyTemplate(surveyTemplate);
+    return ResponseEntity.status(HttpStatus.CREATED).body(createdTemplate);
+}
 
-   //Create Template (Admin)
-    @PostMapping
-    public ResponseEntity<?> createTemplate(@RequestBody SurveyTemplates surveyTemplate) {
-        SurveyTemplates createdTemplate = surveyTemplateService.createSurveyTemplate(surveyTemplate);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdTemplate);
-    }
+//  Update Survey Template(Admin)
+@PutMapping("/{templateId}")
+public ResponseEntity<String> updateSurveyTemplate(@PathVariable Long templateId, @RequestBody SurveyUpdateRequest request) {
+    String message = surveyTemplateService.updateSurveyTemplate(templateId, request.getTemplateName(), request.getCategory(), request.getQuestions());
+    return ResponseEntity.ok(message);
+}
 
+//Delete Survey template by id  (Admin)
+@DeleteMapping("/{id}")
+public ResponseEntity<String> deleteSurveyTemplate(@PathVariable Long id) {
+    return surveyTemplateService.deleteSurveyTemplate(id);
+}
 
-   //  Update Survey Template(Admin)
-    @PutMapping("/{templateid}")
-    public ResponseEntity<?> updateSurvey(@PathVariable Long templateid, @RequestBody SurveyTemplates surveyTemplate) {
-        SurveyTemplates template = surveyTemplateService.updateSurveyTemplate(templateid, surveyTemplate);
-        return ResponseEntity.ok(template);
-    }
+//Delete question by id (Admin)
+@DeleteMapping("/question/{id}")
+public ResponseEntity<String> deleteQuestion(@PathVariable Long id) {
+    return surveyTemplateService.deleteQuestion(id);
+}
 
-    //Delete Survey template by id  (Admin)
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteSurveyTemplate(@PathVariable Long id) {
-        return surveyTemplateService.deleteSurveyTemplate(id);
-    }
+//Get all survey   (Admin/Employee)
+@GetMapping("/available")
+public ResponseEntity<List<SurveyTemplates>> getAvailableSurveyTemplates() {
+List<SurveyTemplates> surveyTemplates = surveyTemplateService.getAvailableSurveyTemplates();
+    return ResponseEntity.ok(surveyTemplates);  // Return the survey templates
+}
 
-    //Delete question by id (Admin)
-    @DeleteMapping("/question/{id}")
-    public ResponseEntity<String> deleteQuestion(@PathVariable Long id) {
-        return surveyTemplateService.deleteQuestion(id);
-    }
-
-    //Get all survey   (Admin/Employee)
-    @GetMapping("/available")
-    public ResponseEntity<List<SurveyTemplates>> getAvailableSurveyTemplates() {
-        List<SurveyTemplates> surveyTemplates = surveyTemplateService.getAvailableSurveyTemplates();
-        return ResponseEntity.ok(surveyTemplates);  // Return the survey templates
-    }
-
-   // Get Survey Template by ID (Admin/Employee)
-    @GetMapping("/{id}")
-    public ResponseEntity<SurveyTemplates> getSurveyById(@PathVariable Long id) {
-        Optional<SurveyTemplates> survey = surveyTemplateService.getSurveyById(id);
-        return survey.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
+// Get Survey Template by ID (Admin/Employee)
+@GetMapping("/{id}")
+public ResponseEntity<SurveyTemplates> getSurveyById(@PathVariable Long id) {
+Optional<SurveyTemplates> survey = surveyTemplateService.getSurveyById(id);
+    return survey.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+}
 
 }
 

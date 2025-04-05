@@ -82,27 +82,30 @@ document.getElementById("updateSurveyForm").addEventListener("submit", function 
         });
     });
 
-    console.log("Updated Survey Data:", JSON.stringify(surveyData)); // Debugging
-
-    fetch(`http://localhost:8080/survey-templates/${surveyId}`, {
-        method: "PUT",
-        headers: {
-            "Authorization": `Bearer ${token}`,
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(surveyData)
-    })
-    .then(response => {
-        if (!response.ok) {
-            return response.text().then(text => { throw new Error(text || "Unknown error"); });
-        }
-        return response.json();
-    })
-    .then(data => {
+fetch(`http://localhost:8080/survey-templates/${surveyId}`, {
+    method: "PUT",
+    headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify(surveyData)
+})
+.then(response => response.text()) 
+.then(text => {
+    console.log("Server Response:", text); 
+    
+    if (text.includes("Survey template updated successfully")) { 
         alert("Survey Updated Successfully!");
         window.location.href = "admindashboard.html";
-    })
-    .catch(error => console.error("Error:", error));
+    } else {
+        throw new Error(text); 
+    }
+})
+.catch(error => {
+    console.error("Error:", error);
+    alert(error.message);
+});
+
 });
 
 // Load survey data on page load
