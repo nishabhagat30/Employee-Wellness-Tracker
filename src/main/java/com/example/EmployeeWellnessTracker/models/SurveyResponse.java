@@ -23,6 +23,7 @@ public class SurveyResponse {
 
     @ManyToOne
     @JoinColumn(name = "template_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private SurveyTemplates surveyTemplate;
 
     @OneToMany(mappedBy = "surveyResponse", cascade = CascadeType.ALL)

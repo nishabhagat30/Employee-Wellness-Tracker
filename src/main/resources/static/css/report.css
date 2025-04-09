@@ -92,3 +92,20 @@ tr:nth-child(even) {
         width: 100%;
     }
 }
+
+
+@media (max-width: 480px) {
+    #reportContainer {
+        padding: 5px;
+    }
+
+    table {
+        min-width: 100%; /* Makes it scrollable if needed */
+        font-size: 12px;
+    }
+
+    #download {
+        font-size: 14px;
+        padding: 10px;
+    }
+}

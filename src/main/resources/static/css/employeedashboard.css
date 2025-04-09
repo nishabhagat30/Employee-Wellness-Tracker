@@ -90,7 +90,7 @@ tbody tr:hover {
     background-color: #f1f1f1;
 }
 
-button.fill-survey, button.view-submission {
+button.fill-survey {
     background-color: #0073e6;
     color: white;
     border: none;
@@ -100,7 +100,7 @@ button.fill-survey, button.view-submission {
     transition: 0.3s;
 }
 
-button.fill-survey:hover, button.view-submission:hover {
+button.fill-survey:hover {
     background-color: #005bb5;
 }
 
@@ -186,19 +186,39 @@ button:hover {
     background-color: #005bb5;
 }
 
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
 /* Show Popup */
 .popup.show {
     display: flex;
+}
+
+
+
+@media (max-width: 480px) {
+   
+    main {
+        margin: 15px 10px;
+        padding: 10px;
+    }
+
+    th, td {
+        font-size: 13px;
+        padding: 6px;
+    }
+
+    button.fill-survey {
+        width: 100%;
+        padding: 8px;
+        font-size: 14px;
+        margin-top: 15px;
+    }
+
+    .popup-content {
+        width: 95%;
+    }
+
+    .close-btn {
+        font-size: 20px;
+        top: 8px;
+        right: 10px;
+    }
 }

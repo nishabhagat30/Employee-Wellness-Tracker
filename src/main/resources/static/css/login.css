@@ -77,3 +77,26 @@ button:hover {
     margin-top: 10px;
 }
 
+/* Media Query for Mobile Devices */
+@media (max-width: 480px) {
+    header {
+        font-size: 18px;
+        padding: 10px;
+    }
+
+    .form-container {
+        padding: 50px;
+        margin-top: 150px;
+    }
+
+    .input-group {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+
+    button {
+        font-size: 16px;
+        padding: 12px;
+    }
+}

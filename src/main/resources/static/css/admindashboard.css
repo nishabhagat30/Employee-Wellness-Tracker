@@ -175,3 +175,58 @@ button[onclick^="delete"] {
         font-size: 12px;
     }
 }
+
+
+@media screen and (max-width: 480px) {
+
+    header {
+        flex-direction: column;
+        text-align: left;
+        font-size:15px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    .dashboard-section h3 {
+        font-size: 18px;
+    }
+
+    table, thead, tbody, th, td, tr {
+        font-size: 12px;
+        padding: 5px;
+    }
+
+    th, td {
+        padding: 8px 6px;
+    }
+
+    button {
+        font-size: 10px;
+        margin: 5px;
+    }
+    #surveyReport {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+    
+    #surveyReport label {
+        font-size: 14px;
+    }
+    
+    #surveyReport input[type="datetime-local"] {
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    #generateReportBtn {
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
+    }
+    
+   
+}
