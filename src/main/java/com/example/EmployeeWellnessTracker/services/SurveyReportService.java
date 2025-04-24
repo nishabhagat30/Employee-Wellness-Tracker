@@ -26,6 +26,11 @@ public class SurveyReportService {
     
         for (SurveyResponse response : responses) {
             for (ResponseAnswer ra : response.getAnswers()) {
+            if (ra.getQuestion() == null || 
+            ra.getQuestion().getSurveyTemplate() == null || 
+            ra.getAnswerText() == null) {
+            continue;
+        }
                 String category = ra.getQuestion().getSurveyTemplate().getCategory();
                 String question = ra.getQuestion().getQuestionText();
                 String answer = ra.getAnswerText();
