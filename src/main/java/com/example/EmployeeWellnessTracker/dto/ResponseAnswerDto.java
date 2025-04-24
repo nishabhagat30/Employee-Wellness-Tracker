@@ -13,8 +13,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
     private String selectedOption;
 
     public ResponseAnswerDto(ResponseAnswer answer) {
-        this.questionText = answer.getQuestion().getQuestionText();
+        this.questionText = (answer.getQuestion() != null) ? answer.getQuestion().getQuestionText() : null;
         this.selectedOption = answer.getAnswerText();
     }
-
+    
 }
